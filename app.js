@@ -12,7 +12,6 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 
 app.use(helmet());
-app.use(limiter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +21,7 @@ mongoose.connect(config.URL, {
 });
 
 app.use(requestLogger);
+app.use(limiter);
 
 app.use(cors(config.allowedCors));
 

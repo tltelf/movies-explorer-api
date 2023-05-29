@@ -1,6 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const Movie = require('../models/movie');
 const BadRequestError = require('../errors/BadRequestError');
+const { incorrectDataFilm, filmDeleted } = require('../constants/constants');
 
 const getFilms = (req, res, next) => {
   const filmsOwner = req.user._id;
@@ -42,7 +43,7 @@ const createFilm = (req, res, next) => {
     .then((film) => res.send(film))
     .catch((e) => {
       if (e instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные при создании фильма'));
+        next(new BadRequestError(incorrectDataFilm));
         return;
       }
       next(e);
@@ -51,7 +52,7 @@ const createFilm = (req, res, next) => {
 
 const deleteFilm = (req, res, next) => {
   Movie.findByIdAndRemove(req.params._id)
-    .then(() => res.send({ message: 'Фильм удалён' }))
+    .then(() => res.send({ message: filmDeleted }))
     .catch(next);
 };
 

@@ -6,6 +6,12 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 const User = require('../models/user');
+const {
+  duplicateEmail,
+  notFoundUser,
+  incorrectId,
+  incorrectData,
+} = require('../constants/constants');
 
 const createUser = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -21,7 +27,7 @@ const createUser = (req, res, next) => {
     }))
     .catch((e) => {
       if (e.code === 11000) {
-        next(new ConflictError('Неправильный формат почты или почта уже используется'));
+        next(new ConflictError(duplicateEmail));
       } else {
         next(e);
       }
@@ -46,13 +52,13 @@ const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (user === null) {
-        throw new NotFoundError('Пользователь по указанному _id не найден');
+        throw new NotFoundError(notFoundUser);
       }
       res.send(user);
     })
     .catch((e) => {
       if (e instanceof mongoose.Error.CastError) {
-        next(new BadRequestError('Передан некорректный _id пользователя'));
+        next(new BadRequestError(incorrectId));
       } else {
         next(e);
       }
@@ -71,13 +77,17 @@ const updateUserInfo = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному _id не найден');
+        throw new NotFoundError(notFoundUser);
       }
       res.send(user);
     })
     .catch((e) => {
       if (e instanceof mongoose.Error.ValidationError) {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(incorrectData));
+        return;
+      }
+      if (e.code === 11000) {
+        next(new ConflictError(duplicateEmail));
       } else {
         next(e);
       }

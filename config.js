@@ -4,7 +4,7 @@ const {
   PORT = 3000,
   NODE_ENV,
   JWT_SECRET,
-  URL,
+  URL = 'mongodb://127.0.0.1:27017/devbitfilmsdb',
 } = process.env;
 
 module.exports = {
