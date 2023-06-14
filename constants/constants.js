@@ -1,0 +1,17 @@
+module.exports = {
+  regExpUrl: /^https*:\/\/(w{3})*\w+\S+$/,
+  incorrectDataFilm: 'Переданы некорректные данные при создании фильма',
+  filmDeleted: 'Фильм удалён',
+  duplicateEmail: 'Введенный email уже используется',
+  incorrectId: 'Передан некорректный _id пользователя',
+  incorrectData: 'Переданы некорректные данные',
+  notFoundUser: 'Пользователь по указанному _id не найден',
+  unAuthorized: 'Необходима авторизация',
+  notFoundFilm: 'Фильм с указанным _id не найден',
+  delOwnMovies: 'Вы можете удалять только собственные фильмы',
+  serverError: 'На сервере произошла ошибка',
+  incorrectUrl: 'Неправильный формат ссылки',
+  incorrectEmail: 'Неправильный формат почты',
+  incorrectAuthData: 'Неправильные почта или пароль',
+  pageNotFound: 'Страница не найдена',
+};
