@@ -1,5 +1,5 @@
-const { Joi, Segments } = require('celebrate');
-const { regExpUrl } = require('../constants/constants');
+const { Joi, Segments } = require("celebrate");
+const { regExpUrl } = require("../constants/constants");
 
 const signupJoi = {
   [Segments.BODY]: Joi.object().keys({
@@ -40,7 +40,7 @@ const idJoi = {
 
 const updProfileJoi = {
   [Segments.BODY]: Joi.object().keys({
-    email: Joi.string().email(),
+    email: Joi.string().email().required(),
     name: Joi.string().required().min(2).max(30),
   }),
 };
