@@ -16,9 +16,19 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(config.URL, {
-  useNewUrlParser: true,
-});
+async function main() {
+  try {
+    await mongoose.connect(config.URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to the database');
+  } catch (err) {
+    console.error(`Error connecting to the database: ${err}`);
+  }
+}
+
+main().catch((err) => console.log(err));
 
 app.use(requestLogger);
 app.use(limiter);
